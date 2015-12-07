@@ -1,0 +1,61 @@
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+	<textarea>turn on 887,9 through 959,629
+turn on 454,398 through 844,448
+</textarea>
+	<h2></h2>
+	
+	<script>
+		$(document).ready(function() {
+			var lines = $('textarea').val().split("\n");
+			var part1 = false;
+			
+			// Prepare the grid
+			var lights = [];
+			for(var x = 0; x < 1000; x++) {
+				lights.push([]);
+				for(var y = 0; y < 1000; y++)
+					lights[x].push(0);
+			}
+			
+			// Process the commands
+			for(var i=0; i < lines.length; i++) {
+				// Parse command
+				var matches = lines[i].toLowerCase().match(/^(.*) ([\d]+,[\d]+).* ([\d]+,[\d]+)$/);
+				var mode = (matches[1] == 'turn off') ? 0 : (matches[1] == 'turn on') ? 1 : 2;
+				var start = matches[2].split(",").map( function(x) {return parseInt(x)});
+				var end = matches[3].split(",").map(function(x) {return parseInt(x)});
+				
+				// Sort the coordinates
+				var rect = [[start[0], end[0]], [start[1], end[1]]].map(function(x) {
+					return x.sort(function(a, b) { return a-b; });
+				});
+				
+				// Perform requested action
+				for(;rect[0][0] <= rect[0][1]; rect[0][0]++)
+					for(var y = rect[1][0]; y <= rect[1][1]; y++) {
+						if (part1)
+							lights[rect[0][0]][y] = (mode == 2) ? (lights[rect[0][0]][y] + 1) % 2 : mode;
+						else
+							lights[rect[0][0]][y] = (mode == 0) ? Math.max(0, (lights[rect[0][0]][y] - 1)) : lights[rect[0][0]][y] + mode;
+					}
+						
+			}
+			
+		
+			// Count and display
+			var sum = 0;
+			for(var x = 0; x < lights.length; x++) {
+				for(var y=0; y < lights[x].length; y++) {
+					sum += lights[x][y];
+				}
+			}
+			$('h2').text(sum);
+		})
+	</script>
+	
+</body>
+</html>
