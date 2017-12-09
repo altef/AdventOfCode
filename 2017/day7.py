@@ -1115,7 +1115,7 @@ def balance(parent, node, depth = 0):
 			print("{}{}: {}".format("\t"*(depth+1), name, child['total_weight']))
 		s = sorted(weights.iteritems(), key=lambda (k,v): v[0])
 		dif = s[1][0] - s[0][0]
-		print("{}({} needs to change by {}, its weight should be {}.) ".format("\t"*depth, s[0][1][1][0], dif, int(node['children'][s[0][1][1][0]]['weight']) + dif))
+		raise ValueError("{} needs to change by {}, its weight should be {}.".format(s[0][1][1][0], dif, int(node['children'][s[0][1][1][0]]['weight']) + dif))
 	return sum([k*v[0] for k,v in weights.iteritems()])
 
 # This will ouput Part 2's solution (the first one; the deepest one)
