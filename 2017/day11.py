@@ -12,13 +12,18 @@ directions = {
 	'se': (1, .5)
 }
 
+distances = []
+def distance(position):
+	x,y = map(abs, position)
+	if x < .5*y:
+		return x*.5 + y 
+	else:
+		return x
+
 position = [0,0]
 for direction in input.split(","):
 	position = (map(operator.add, position, directions[direction]))
+	distances.append(distance(position))
 
-print(position)
-x,y = position
-
-distance = None
-
-print("Distance: {}".format(distance))
+print("Part 1: {}".format(distance(position)))
+print("Part 2: {}".format(max(distances)))
