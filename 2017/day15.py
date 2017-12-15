@@ -14,39 +14,31 @@ generators = [
 ]
 
 
-def next(generator):
-	divisor = 2147483647
-	next = (generator['last'] * generator['coeff']) % divisor
-	generator['last'] = next
-	return next
 
-def picky_next(generator):
+def next(generator, respect_mod = False):
 	divisor = 2147483647
 	while True:
 		next = (generator['last'] * generator['coeff']) % divisor
 		generator['last'] = next
-		if next % generator['mod'] == 0:
+		if not respect_mod or (next % generator['mod'] == 0):
 			break
 	return next
+
 
 
 def check(number, picky = False):
 	matches = 0
 	
-	if picky:
-		fn = picky_next
-	else:
-		fn = next
-
 	for i in range(0, number):
 		o = []
 		for generator in generators:
-			r = fn(generator)
-			o.append(str(bin(r))[2:].zfill(32))
-		if o[0][16:] == o[1][16:]:
+			r = next(generator, picky)
+			o.append(r & 0xFFFF)
+		if all(x == o[0] for x in o):
 			matches += 1
 	return matches
 
-#print("Part 1: {}".format(check(40000000)))
 
-print("Part 2: {}".format(check(5000000, True)))
+if __name__ == "__main__":
+	print("Part 1: {}".format(check(40000000)))
+	print("Part 2: {}".format(check(5000000, True)))
