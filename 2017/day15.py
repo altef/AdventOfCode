@@ -25,6 +25,8 @@ def picky_next(generator):
 	while True:
 		next = (generator['last'] * generator['coeff']) % divisor
 		generator['last'] = next
+		if next % generator['mod'] == 0:
+			break
 	return next
 
 
@@ -45,6 +47,6 @@ def check(number, picky = False):
 			matches += 1
 	return matches
 
-if __name__ == "__main__":
-	print("Part 1: {}".format(check(40000000)))
-	print("Part 2: {}".format(check(5000000, True)))
+#print("Part 1: {}".format(check(40000000)))
+
+print("Part 2: {}".format(check(5000000, True)))
