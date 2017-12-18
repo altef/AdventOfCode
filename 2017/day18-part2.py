@@ -1,5 +1,4 @@
 from enum import Enum
-import msvcrt
 
 
 # Define statuses
@@ -14,6 +13,7 @@ def describe(thread, tid):
 	print("		registers: {}".format(thread['registers']))
 	print("		input: {}".format(thread['in']))
 	print("		ouput: {}".format(thread['out']))
+
 
 def execute(thread, tid):
 	count = 0 
