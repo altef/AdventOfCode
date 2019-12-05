@@ -1,5 +1,6 @@
 import days.Day1;
 import days.Day2;
+import days.Day3;
 
 class Aoc {
 	static public function main():Void {
@@ -20,10 +21,13 @@ class Aoc {
 		var daySolver = Type.createInstance(dayClass, []);
 		for(test in tests) {
 			trace("Elfing day " + chunks[0] + ", part " + test);
-			if (input == null) 
-				data = sys.io.File.getContent("data/day" + chunks[0] + "." + test + ".txt");
+			if (input == null) {
+				var path = "data/day" + chunks[0] + "." + test + ".txt";
+				if (!sys.FileSystem.exists(path)) // Default to the first one for the day, if the second doesn't exist
+					path = "data/day" + chunks[0] + ".1.txt";
+				data = sys.io.File.getContent(path);
+			}
 			trace(Reflect.field(daySolver, "part" + test)(data) + "\n");
 		}
-
 	}
 }
