@@ -3,6 +3,7 @@ import days.Day2;
 import days.Day3;
 import days.Day4;
 import days.Day5;
+import days.Day6;
 
 class Aoc {
 	static public function main():Void {
